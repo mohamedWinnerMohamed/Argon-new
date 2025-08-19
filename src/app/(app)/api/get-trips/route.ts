@@ -8,6 +8,8 @@ export async function GET(request: NextRequest) {
   try {
     const page = +(request.nextUrl.searchParams?.get("page") ?? 1);
     const search = request.nextUrl.searchParams?.get("search") ?? "";
+    const isDone = request.nextUrl.searchParams?.get("isDone") ?? "";
+
 
     const totalTrips = await db.trip.count({
       where: {
@@ -19,8 +21,10 @@ export async function GET(request: NextRequest) {
 
     const totalPages = Math.ceil(totalTrips / ITEMS_PER_PAGE);
 
+
     const trips = await db.trip.findMany({
       where: {
+        isDone: isDone == "true" ? true : false,
         destination: {
           contains: search,
         },

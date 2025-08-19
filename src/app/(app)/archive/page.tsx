@@ -22,7 +22,7 @@ export default async function Page({
 
   const trips = await db.trip.findMany({
     where: {
-      isDone: false,
+      isDone: true,
       OR: [
         {
           destination: {
@@ -43,9 +43,10 @@ export default async function Page({
     },
   });
 
+
   return (
     <div className="p-4 flex flex-col gap-4">
-      <p className="text-2xl font-bold">الرحلات</p>
+      <p className="text-2xl font-bold">ارشيف</p>
       <TopSection />
 
       <DataTable columns={columns} data={trips} />

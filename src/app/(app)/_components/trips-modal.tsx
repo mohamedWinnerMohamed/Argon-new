@@ -8,11 +8,12 @@ import { MagnifyingGlass, X } from "@phosphor-icons/react";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { Loader2 } from "lucide-react";
 import { ReactNode, useEffect, useState } from "react";
+import { tr } from "yup-locales";
 
 export interface TripsModalProps {
   open: boolean;
   onClose: () => void;
-  onSelect: (trip: { value: string; label: string }) => void;
+  onSelect: (trip: { value: string; label: string; }) => void;
   children: ReactNode;
 }
 
@@ -22,7 +23,9 @@ export function TripsModal({
   children,
   onSelect,
 }: TripsModalProps) {
-  const [trips, setTrips] = useState<{ value: string; label: string }[]>([]);
+  const [trips, setTrips] = useState<
+    { value: string; label: string;  }[]
+  >([]);
 
   const [searchValue, setSearchValue] = useState<string>("");
   const [search, setSearch] = useState<string>("");
@@ -42,17 +45,16 @@ export function TripsModal({
     if (!res) return;
 
     const { lastPage, trips } = res.data as {
-      trips: { id: string; destination: string }[];
+      trips: { id: string; destination: string;  isDone :boolean}[];
       lastPage: number;
     };
 
     setTrips((prev) => [
       ...(prev ? prev : []),
-      ...trips.map((trip) => ({ value: trip.id, label: trip.destination })),
+      ...trips
+        .map((trip) => ({ value: trip.id, label: trip.destination, isDone : trip.isDone}))
     ]);
-
     setPage((prev) => ++prev);
-
     if (page >= lastPage) {
       setIsLastPage(true);
     }

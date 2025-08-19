@@ -36,7 +36,6 @@ const Ticket = forwardRef<HTMLDivElement, Optional<TicketType>>(
     {
       code = "SF23$%21S",
       name = "محمد ماهر حسن محمد",
-      mediatorName = "عمر",
       arrivalDate = "10-4-2025",
       departureDate = "10-4-2025",
       seatNo = "5",
@@ -77,9 +76,6 @@ const Ticket = forwardRef<HTMLDivElement, Optional<TicketType>>(
           </div>
           <div className="w-full flex gap-8 flex-row-reverse">
             <p className="text-white font-black text-sm">الإسم: {name}</p>
-            {mediatorName ? 
-            <p className="text-white font-black text-sm">الوسيط: {mediatorName}</p>
-          :""}
             <p className="text-white font-black text-sm">الوجهة: {trip}</p>
           </div>
           <table className="text-xs text-white rounded-lg overflow-hidden">

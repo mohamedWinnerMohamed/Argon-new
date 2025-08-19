@@ -39,8 +39,8 @@ const ADMIN_TABS = [
   {
     id: 3,
     icon: ClockCounterClockwise,
-    name: "تاريخ",
-    path: "/history",
+    name: "ارشيف",
+    path: "/archive",
   },
   {
     id: 4,

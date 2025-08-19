@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Check,X } from "@phosphor-icons/react";
+import { Check, X } from "@phosphor-icons/react";
+import { useRouter } from "next/navigation";
+
 export function ToggleTripButton({
   id,
   initialState,
@@ -11,6 +13,8 @@ export function ToggleTripButton({
 }) {
   const [isDone, setIsDone] = useState(initialState);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
   const toggle = async () => {
     setLoading(true);
     try {
@@ -19,8 +23,11 @@ export function ToggleTripButton({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ isDone: !isDone }),
       });
+
       if (res.ok) {
-        setIsDone(!isDone);
+        const newState = !isDone;
+        setIsDone(newState);
+        router.refresh();
       }
     } catch (err) {
       console.error(err);
@@ -34,7 +41,7 @@ export function ToggleTripButton({
       onClick={toggle}
       disabled={loading}
       className={`px-[0.60rem] py-1 rounded-md hover:opacity-95 ${
-        isDone ? "bg-gray-400 " : "bg-green-500"
+        isDone ? "bg-gray-400" : "bg-green-500"
       } text-white`}
     >
       {isDone ? (

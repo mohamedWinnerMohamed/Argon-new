@@ -12,10 +12,15 @@ import { toast } from "sonner";
 export function DeleteTripButton({
   id,
   disabled,
+  onTripDeleted,
   ...props
-}: ComponentProps<"button"> & { id: string }) {
+}: ComponentProps<"button"> & {
+  id: string;
+  onTripDeleted?: (tripId: string) => void;
+}) {
   const [isPending, setIsPending] = useState<boolean>(false);
   const router = useRouter();
+
   async function handleDelete() {
     setIsPending(true);
     const res = await apiErrorHandler(deleteTrip({ id }));
@@ -25,7 +30,11 @@ export function DeleteTripButton({
 
     toast.success(res.data.message);
 
-    router.refresh();
+    if (onTripDeleted) {
+      onTripDeleted(id);
+    } else {
+      router.refresh();
+    }
   }
 
   return (
